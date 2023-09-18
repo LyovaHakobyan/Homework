@@ -13,5 +13,7 @@ public class DynamicArrayDemo {
         System.out.println();
         int temp = da.getByIndex(99);
         System.out.println(temp);
+        da.add(787);
+        da.print();
     }
 }
