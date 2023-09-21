@@ -15,5 +15,7 @@ public class DynamicArrayDemo {
         System.out.println(temp);
         da.add(787);
         da.print();
+        System.out.println();
+        System.out.println(da.getByIndex(5));
     }
 }

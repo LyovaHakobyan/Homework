@@ -29,9 +29,10 @@ public class DynamicArray {
     //եթե տրված ինդեքսը մեր ունեցած մասիվի ինդեքսի սահմաններում է, վերադարձնել
     // մասիվի index-երրորդ էլեմենտը։ Հակառակ դեպքում վերադարձնել -1։
     public int getByIndex(int index) {
-        if (index < array.length) {
+        if (index < size && index > -1) {
             return array[index];
         } else {
+            System.out.println("This index is not true !");
             return -1;
         }
     }
