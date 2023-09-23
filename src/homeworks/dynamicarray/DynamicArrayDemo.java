@@ -30,5 +30,6 @@ public class DynamicArrayDemo {
         da.print();
         da.deleteByIndex(13);
         da.print();
+        System.out.println(da.exists(888));
     }
 }

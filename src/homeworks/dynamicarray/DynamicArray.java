@@ -85,14 +85,12 @@ public class DynamicArray {
 
     //Վերադարձնել true եթե տրված value-ն կա մեր մասիվի մեջ, եթե ոչ false
     public boolean exists(int value) {
-        int temp = 0;
         for (int i = 0; i < size; i++) {
             if (array[i] == value) {
-                temp++;
-                break;
+                return true;
             }
         }
-        return temp > 0;
+        return false;
     }
 
     //Վերադարձնել տրված value-ի ինդեքսը, եթե շատ կա տվյալ թվից, վերադարձնել առաջին ինդեքսը։
