@@ -72,6 +72,9 @@ public class DynamicArray {
     //ավելացնել տրված value-ն տրված ինդեքսում, իսկ էղած էլեմենտները մի հատ աջ տանել։
     //Եթե չկա նման ինդեքս, տպել որ չկա
     public void add(int index, int value) {
+        if (size == array.length - 1) {
+            extend();
+        }
         if (index >= 0 && index < size) {
             size++;
             for (int i = size; i > index; i--) {
