@@ -24,7 +24,7 @@ public class BraceCheckerWithoutStack {
                     break;
             }
             if (t < 0) {
-                System.out.println(" (  is opened without being closed " + (i + 1));
+                System.out.println("Error: (  is opened without being closed " + (i + 1));
                 t = 0;
             }
         }
@@ -40,7 +40,7 @@ public class BraceCheckerWithoutStack {
                     break;
             }
             if (x < 0) {
-                System.out.println(" )  is closed without being opened " + (i + 1));
+                System.out.println("Error: )  is closed without being opened " + (i + 1));
                 x = 0;
             }
         }
@@ -56,7 +56,7 @@ public class BraceCheckerWithoutStack {
                     break;
             }
             if (t < 0) {
-                System.out.println(" {  is opened without being closed " + (i + 1));
+                System.out.println("Error: {  is opened without being closed " + (i + 1));
                 t = 0;
             }
         }
@@ -72,7 +72,7 @@ public class BraceCheckerWithoutStack {
                     break;
             }
             if (y < 0) {
-                System.out.println(" }  is closed without being opened " + (i + 1));
+                System.out.println("Error: }  is closed without being opened " + (i + 1));
                 y = 0;
             }
         }
@@ -89,7 +89,7 @@ public class BraceCheckerWithoutStack {
                     break;
             }
             if (t < 0) {
-                System.out.println(" [  is opened without being closed " + (i + 1));
+                System.out.println("Error: [  is opened without being closed " + (i + 1));
                 t = 0;
             }
         }
@@ -105,7 +105,7 @@ public class BraceCheckerWithoutStack {
                     break;
             }
             if (y < 0) {
-                System.out.println(" ]  is closed without being opened " + (i + 1));
+                System.out.println("Error: ]  is closed without being opened " + (i + 1));
                 y = 0;
             }
         }
