@@ -12,7 +12,6 @@ public class BraceCheckerWithoutStack {
     private int t = 0;
 
     public void check() {
-        int[] massiveForX = new int[text.length()];
         for (int i = text.length() - 1; i > 0; i--) {
             switch (text.charAt(i)) {
                 case '(':
