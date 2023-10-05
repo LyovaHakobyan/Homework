@@ -67,4 +67,8 @@ public class Employee {
     public void setEmployeeID(String employeeID) {
         this.employeeID = employeeID;
     }
+
+    public String toString() {
+        return "Name: " + name + " Surname: " + surname + " EmployeeID: " + employeeID + " Salary: " + salary + " Company: " + company + " Position: " + position + " ";
+    }
 }

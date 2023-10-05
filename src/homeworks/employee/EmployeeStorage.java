@@ -25,7 +25,7 @@ public class EmployeeStorage {
     public void searchID(String id) {
         for (int i = 0; i < size; i++) {
             if (employees[i].getEmployeeID().toLowerCase().contains(id.toLowerCase())) {
-                System.out.println("Name: " + employees[i].getName() + " Surname: " + employees[i].getSurname() + " EmployeeID: " + employees[i].getEmployeeID() + " Salary: " + employees[i].getSalary() + " Company: " + employees[i].getCompany() + " Position: " + employees[i].getPosition() + " ");
+                System.out.println(employees[i]);
             }
         }
     }
@@ -33,7 +33,7 @@ public class EmployeeStorage {
     public void searchCompany(String companyName) {
         for (int i = 0; i < size; i++) {
             if (employees[i].getCompany().toLowerCase().contains(companyName.toLowerCase())) {
-                System.out.println("Name: " + employees[i].getName() + " Surname: " + employees[i].getSurname() + " EmployeeID: " + employees[i].getEmployeeID() + " Salary: " + employees[i].getSalary() + " Company: " + employees[i].getCompany() + " Position: " + employees[i].getPosition() + " ");
+                System.out.println(employees[i]);
             }
         }
     }
