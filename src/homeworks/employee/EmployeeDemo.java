@@ -106,8 +106,17 @@ public class EmployeeDemo {
         String name = in.nextLine();
         System.out.println("Enter surname");
         String surname = in.nextLine();
-        System.out.println("Enter employeeID");
-        String employeeID = in.nextLine();
+        String employeeID = null;
+        boolean temp = true;
+        while (temp) {
+            System.out.println("Enter employeeID");
+            employeeID = in.nextLine();
+            if (employeeStorage.checkExistenceID(employeeID)) {
+                System.out.println("-- This ID is already used --");
+            } else {
+                temp = false;
+            }
+        }
         System.out.println("Enter salary");
         double salary = Double.parseDouble(in.nextLine());
         System.out.println("Enter company");

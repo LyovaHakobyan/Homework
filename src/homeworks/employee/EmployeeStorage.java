@@ -92,6 +92,15 @@ public class EmployeeStorage {
         size--;
     }
 
+    public boolean checkExistenceID(String id) {
+        for (int i = 0; i < size; i++) {
+            if (employees[i].getEmployeeID().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void extend() {
         Employee[] newEmployees = new Employee[employees.length + 10];
         System.arraycopy(employees, 0, newEmployees, 0, employees.length);
