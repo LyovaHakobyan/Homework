@@ -28,10 +28,56 @@ public class EmployeeDemo {
                 case 4:
                     searchEmployeeByCompany();
                     break;
+                case 5:
+                    deleteByID();
+                    break;
+                case 6:
+                    changeEmployeeByID();
+                    break;
                 default:
                     System.out.println("-- WRONG COMMAND ! --");
                     break;
             }
+        }
+    }
+
+    private static void changeEmployeeByID() {
+        System.out.println("-- Write full-ID of the person who you want to change --");
+        String id = in.nextLine();
+        if (employeeStorage.exist(id)) {
+            int index = employeeStorage.returnIndexByID(id);
+            System.out.print("Old name: " + employeeStorage.getEmployees(index).getName());
+            System.out.print("  New name... ");
+            String newName = in.nextLine();
+            System.out.print("Old surname: " + employeeStorage.getEmployees(index).getSurname());
+            System.out.print("  New surname... ");
+            String newSurname = in.nextLine();
+            System.out.print("Old ID: " + employeeStorage.getEmployees(index).getEmployeeID());
+            System.out.print("  New ID... ");
+            String newEmployeeID = in.nextLine();
+            System.out.print("Old salary: " + employeeStorage.getEmployees(index).getSalary());
+            System.out.print("  New salary... ");
+            double newSalary = Double.parseDouble(in.nextLine());
+            System.out.print("Old company: " + employeeStorage.getEmployees(index).getCompany());
+            System.out.print("  New company... ");
+            String newCompany = in.nextLine();
+            System.out.print("Old position: " + employeeStorage.getEmployees(index).getPosition());
+            System.out.print("  New position... ");
+            String newPosition = in.nextLine();
+            employeeStorage.changeByID(id, newName, newSurname, newEmployeeID, newSalary, newCompany, newPosition);
+            System.out.println("-- The person is changed --");
+        } else {
+            System.out.println("-- The person by this ID is not found --");
+        }
+    }
+
+    private static void deleteByID() {
+        System.out.println("-- Write full-ID of the person who you want to be deleted --");
+        String id = in.nextLine();
+        if (employeeStorage.exist(id)) {
+            employeeStorage.deleteByID(id);
+        } else {
+            System.out.println("-- The person by this ID is not found --");
         }
     }
 
@@ -79,5 +125,7 @@ public class EmployeeDemo {
         System.out.println("-- Press 2: if you want to print all employees --");
         System.out.println("-- Press 3: if you want to search an employee by ID --");
         System.out.println("-- Press 4: if you want to search an employee by company name --");
+        System.out.println("-- Press 5: if you want to delete the employee by ID --");
+        System.out.println("-- Press 6: if you want to change the employee by ID --");
     }
 }
