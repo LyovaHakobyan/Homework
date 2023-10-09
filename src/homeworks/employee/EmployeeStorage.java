@@ -14,7 +14,7 @@ public class EmployeeStorage {
     }
 
     public void add(Employee employee) {
-        if (employees.length == size) {
+        if (size == employees.length) {
             extend();
         }
         employees[size++] = employee;
@@ -34,9 +34,9 @@ public class EmployeeStorage {
         }
     }
 
-    public void searchCompany(String companyName) {
+    public void searchEmployeeByCompanyId(String companyId) {
         for (int i = 0; i < size; i++) {
-            if (employees[i].getCompany().toLowerCase().contains(companyName.toLowerCase())) {
+            if (employees[i].getCompany().getId().toLowerCase().contains(companyId.toLowerCase())) {
                 System.out.println(employees[i]);
             }
         }
@@ -45,14 +45,14 @@ public class EmployeeStorage {
     public void deleteByID(String id) {
         for (int i = 0; i < size; i++) {
             if (employees[i].getEmployeeID().equals(id)) {
-                System.out.println(employees[i] + " --> IS DELETED !");
+                System.out.println(employees[i] + "<< IS DELETED ! >>");
                 delete(i);
                 break;
             }
         }
     }
 
-    public void changeByID(String id, String newName, String newSurname, String newEmployeeID, double newSalary, String newCompany, String newPosition) {
+    public void changeByID(String id, String newName, String newSurname, String newEmployeeID, double newSalary, Company newCompany, String newPosition) {
         for (int i = 0; i < size; i++) {
             if (employees[i].getEmployeeID().equals(id)) {
                 employees[i].setName(newName);
@@ -75,6 +75,15 @@ public class EmployeeStorage {
         return false;
     }
 
+    public boolean checkExistenceID(String id) {
+        for (int i = 0; i < size; i++) {
+            if (employees[i].getEmployeeID().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int returnIndexByID(String id) {
         for (int i = 0; i < size; i++) {
             if (employees[i].getEmployeeID().equals(id)) {
@@ -85,6 +94,19 @@ public class EmployeeStorage {
         return -1;
     }
 
+    public void deleteAllEmployeeByCompanyId(String id) {
+        for (int i = 0; i < size; i++) {
+            if (employees[i].getCompany().getId().equals(id)) {
+                delete(i);
+            }
+        }
+        for (int i = 0; i < size; i++) {
+            if (employees[i].getCompany().getId().equals(id)) {
+                delete(i);
+            }
+        }
+    }
+
     private void delete(int i) {
         for (int j = i; j < size; j++) {
             employees[j] = employees[j + 1];
@@ -92,14 +114,6 @@ public class EmployeeStorage {
         size--;
     }
 
-    public boolean checkExistenceID(String id) {
-        for (int i = 0; i < size; i++) {
-            if (employees[i].getEmployeeID().equals(id)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     private void extend() {
         Employee[] newEmployees = new Employee[employees.length + 10];
