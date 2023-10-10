@@ -77,10 +77,10 @@ public class EmployeeDemo {
         String companyId = in.nextLine();
         if (companyStorage.exist(companyId)) {
             companyStorage.deleteCompany(companyId);
+            employeeStorage.deleteAllEmployeeByCompanyId(companyId);
         } else {
             System.out.println("-- Company by this ID doest exist --");
         }
-        employeeStorage.deleteAllEmployeeByCompanyId(companyId);
     }
 
     private static void printCompanyes() {

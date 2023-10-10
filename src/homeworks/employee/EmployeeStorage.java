@@ -95,16 +95,15 @@ public class EmployeeStorage {
     }
 
     public void deleteAllEmployeeByCompanyId(String id) {
+        Employee[] temp = new Employee[employees.length];
+        int index = 0;
         for (int i = 0; i < size; i++) {
-            if (employees[i].getCompany().getId().equals(id)) {
-                delete(i);
+            if (!employees[i].getCompany().getId().equals(id)) {
+                temp[index++] = employees[i];
             }
         }
-        for (int i = 0; i < size; i++) {
-            if (employees[i].getCompany().getId().equals(id)) {
-                delete(i);
-            }
-        }
+        employees = temp;
+        size = index;
     }
 
     private void delete(int i) {
