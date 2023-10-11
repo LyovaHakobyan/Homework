@@ -1,4 +1,4 @@
-package homeworks.employee;
+package homeworks.employee.models;
 
 public class Employee {
     private String name;

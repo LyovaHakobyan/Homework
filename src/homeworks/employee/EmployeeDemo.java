@@ -1,5 +1,10 @@
 package homeworks.employee;
 
+import homeworks.employee.models.Company;
+import homeworks.employee.models.Employee;
+import homeworks.employee.storages.CompanyStorage;
+import homeworks.employee.storages.EmployeeStorage;
+
 import java.util.Scanner;
 
 public class EmployeeDemo {

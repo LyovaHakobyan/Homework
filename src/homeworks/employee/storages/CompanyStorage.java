@@ -1,10 +1,12 @@
-package homeworks.employee;
+package homeworks.employee.storages;
+
+import homeworks.employee.models.Company;
 
 public class CompanyStorage {
     private Company[] companies;
     private int size;
 
-    CompanyStorage() {
+    public CompanyStorage() {
         companies = new Company[10];
         size = 0;
     }
