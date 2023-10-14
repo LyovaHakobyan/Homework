@@ -6,9 +6,9 @@ public abstract class Person {
     private String name;
     private String surname;
     private String id;
-    private int phoneNumber;
+    private long phoneNumber;
 
-    public Person(String name, String surname, String id, int phoneNumber) {
+    public Person(String name, String surname, String id, long phoneNumber) {
         this.name = name;
         this.surname = surname;
         this.id = id;
@@ -42,11 +42,11 @@ public abstract class Person {
         this.id = id;
     }
 
-    public int getPhoneNumber() {
+    public long getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -68,7 +68,7 @@ public abstract class Person {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
         result = 31 * result + (id != null ? id.hashCode() : 0);
-        result = 31 * result + phoneNumber;
+        result = 31 * result + (int) (phoneNumber ^ (phoneNumber >>> 32));
         return result;
     }
 }

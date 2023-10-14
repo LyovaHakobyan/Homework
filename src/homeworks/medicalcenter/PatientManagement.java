@@ -2,16 +2,15 @@ package homeworks.medicalcenter;
 
 import homeworks.medicalcenter.models.Doctor;
 import homeworks.medicalcenter.models.Patient;
-import homeworks.medicalcenter.storages.DoctorStorage;
-import homeworks.medicalcenter.storages.PatientStorage;
+import homeworks.medicalcenter.models.Person;
+import homeworks.medicalcenter.storages.Storage;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
 public class PatientManagement {
-    static DoctorStorage doctorStorage = new DoctorStorage();
-    static PatientStorage patientStorage = new PatientStorage();
+    static Storage storage = new Storage();
     static Scanner in = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -81,13 +80,14 @@ public class PatientManagement {
         System.out.println("Surname...");
         String doctorSurname = in.nextLine();
         System.out.println("PhoneNumber...");
-        int doctorPhoneNumber = Integer.parseInt(in.nextLine());
+        long doctorPhoneNumber = Long.parseLong(in.nextLine());
         boolean temp = true;
         String doctorId = null;
         while (temp) {
             System.out.println("Id...");
             doctorId = in.nextLine();
-            if (doctorStorage.returnDoctorById(doctorId) != null) {
+            Person person = storage.returnPersonById(doctorId);
+            if (person != null) {
                 System.out.println("-- This ID is already used --");
             } else {
                 temp = false;
@@ -98,29 +98,29 @@ public class PatientManagement {
         System.out.println("Profession...");
         String doctorProfession = in.nextLine();
         Doctor doctor = new Doctor(doctorName, doctorSurname, doctorId, doctorPhoneNumber, doctorEmail, doctorProfession);
-        doctorStorage.add(doctor);
+        storage.add(doctor);
         System.out.println("-- Completed --");
     }
 
     static private void printAllDoctors() {
         System.out.println("-- Here are all doctors --");
-        doctorStorage.printAllDoctors();
+        storage.printAllDoctors();
     }
 
     private static void searchDoctorByProfession() {
         System.out.println("-- Enter the profession of the doctor who you want to find --");
         String profession = in.nextLine();
         System.out.println("-- Here are the doctors by this profession --");
-        doctorStorage.searchDoctorByProfession(profession);
+        storage.searchDoctorByProfession(profession);
     }
 
     private static void deleteDoctor() {
         System.out.println("-- Enter the ID of the doctor who you want to delete --");
         String id = in.nextLine();
-        Doctor doctor = doctorStorage.returnDoctorById(id);
-        if (doctor != null) {
-            doctorStorage.deleteDoctor(doctor);
-            patientStorage.deletePatientsByDoctor(doctor);
+        Person person = storage.returnPersonById(id);
+        if (person != null && person.getClass() == Doctor.class) {
+            storage.deletePerson(person);
+            storage.deletePatientsByDoctor(person);
             System.out.println("-- Doctor is deleted --");
         } else {
             System.out.println("-- Doctor by this ID is not found --");
@@ -130,23 +130,23 @@ public class PatientManagement {
     private static void changeDoctorById() {
         System.out.println("-- Enter the ID of the doctor who you want to change --");
         String id = in.nextLine();
-        Doctor doctor = doctorStorage.returnDoctorById(id);
-        if (doctor != null) {
-            System.out.println("Old name:" + doctor.getName() + "  New name... ");
+        Person person = storage.returnPersonById(id);
+        if (person != null && person.getClass() == Doctor.class) {
+            System.out.println("Old name:" + person.getName() + "  New name... ");
             String newName = in.nextLine();
-            doctor.setName(newName);
-            System.out.println("Old surname:" + doctor.getSurname() + "  New surname... ");
+            person.setName(newName);
+            System.out.println("Old surname:" + person.getSurname() + "  New surname... ");
             String newSurname = in.nextLine();
-            doctor.setSurname(newSurname);
-            System.out.println("Old PhoneNumber:" + doctor.getPhoneNumber() + "  New phoneNumber... ");
-            int newPhoneNumber = Integer.parseInt(in.nextLine());
-            doctor.setPhoneNumber(newPhoneNumber);
-            System.out.println("Old Email:" + doctor.getEmail() + "  New Email... ");
+            person.setSurname(newSurname);
+            System.out.println("Old PhoneNumber:" + person.getPhoneNumber() + "  New phoneNumber... ");
+            long newPhoneNumber = Long.parseLong(in.nextLine());
+            person.setPhoneNumber(newPhoneNumber);
+            System.out.println("Old Email:" + ((Doctor) person).getEmail() + "  New Email... ");
             String newEmail = in.nextLine();
-            doctor.setEmail(newEmail);
-            System.out.println("Old profession:" + doctor.getProfession() + "  New profession... ");
+            ((Doctor) person).setEmail(newEmail);
+            System.out.println("Old profession:" + ((Doctor) person).getProfession() + "  New profession... ");
             String newProfession = in.nextLine();
-            doctor.setProfession(newProfession);
+            ((Doctor) person).setProfession(newProfession);
             System.out.println("-- Completed --");
         } else {
             System.out.println("-- Doctor by this ID is not found --");
@@ -163,21 +163,25 @@ public class PatientManagement {
         while (temp) {
             System.out.println("Id...");
             patientId = in.nextLine();
-            if (patientStorage.returnPatientById(patientId) != null) {
+            Person person = storage.returnPersonById(patientId);
+            if (person != null) {
                 System.out.println("-- This ID is already used --");
             } else {
                 temp = false;
             }
         }
         System.out.println("PhoneNumber...");
-        int patientPhoneNumber = Integer.parseInt(in.nextLine());
+        long patientPhoneNumber = Long.parseLong(in.nextLine());
         System.out.println("Doctor id where he will be registered...");
-        doctorStorage.printAllDoctors();
+        storage.printAllDoctors();
         String id = null;
         temp = true;
         while (temp) {
             id = in.nextLine();
-            if (doctorStorage.returnDoctorById(id) == null) {
+            Person person = storage.returnPersonById(id);
+            if (person != null && person.getClass() == Patient.class) {
+                System.out.println("-- Wrong Id, try again --");
+            } else if (person == null) {
                 System.out.println("-- Wrong Id, try again --");
             } else {
                 temp = false;
@@ -186,17 +190,17 @@ public class PatientManagement {
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy hh:mm");
         String date = sdf.format(d);
-        Patient patient = new Patient(patientName, patientSurname, patientId, patientPhoneNumber, doctorStorage.returnDoctorById(id), date);
-        patientStorage.add(patient);
+        Patient patient = new Patient(patientName, patientSurname, patientId, patientPhoneNumber, (Doctor) storage.returnPersonById(id), date);
+        storage.add(patient);
         System.out.println("-- Completed --");
     }
 
     static private void printAllPatientsByDoctor() {
         System.out.println("-- Enter ID of the doctor if you want to see the patients --");
         String idOfDoctor = in.nextLine();
-        Doctor doctor = doctorStorage.returnDoctorById(idOfDoctor);
-        if (doctor != null) {
-            patientStorage.returnPatientByDoctor(doctor);
+        Person person = storage.returnPersonById(idOfDoctor);
+        if (person != null && person.getClass() == Doctor.class) {
+            storage.returnPatientByDoctor(person);
         } else {
             System.out.println("-- Doctor by this ID is not found --");
         }
@@ -204,15 +208,15 @@ public class PatientManagement {
 
     static private void printAllPatients() {
         System.out.println("-- Here are all patients --");
-        patientStorage.printAllPatients();
+        storage.printAllPatients();
     }
 
     static private void deletePatientById() {
         System.out.println("-- Enter the ID of the patient who you want to delete --");
         String id = in.nextLine();
-        Patient patient = patientStorage.returnPatientById(id);
-        if (patient != null) {
-            patientStorage.deletePatient(patient);
+        Person person = storage.returnPersonById(id);
+        if (person != null && person.getClass() == Patient.class) {
+            storage.deletePerson(person);
             System.out.println("-- The patient is deleted --");
         } else {
             System.out.println("-- The patient by this Id is not found --");
@@ -222,17 +226,17 @@ public class PatientManagement {
     static private void changePatientById() {
         System.out.println("-- Enter the ID of the patient who you want to change --");
         String id = in.nextLine();
-        Patient patient = patientStorage.returnPatientById(id);
-        if (patient != null) {
-            System.out.println("Old name:" + patient.getName() + "  New name... ");
+        Person person = storage.returnPersonById(id);
+        if (person != null && person.getClass() == Patient.class) {
+            System.out.println("Old name:" + person.getName() + "  New name... ");
             String newName = in.nextLine();
-            patient.setName(newName);
-            System.out.println("Old surname:" + patient.getSurname() + "  New surname... ");
+            person.setName(newName);
+            System.out.println("Old surname:" + person.getSurname() + "  New surname... ");
             String newSurname = in.nextLine();
-            patient.setSurname(newSurname);
-            System.out.println("Old PhoneNumber:" + patient.getPhoneNumber() + "  New phoneNumber... ");
-            int newPhoneNumber = Integer.parseInt(in.nextLine());
-            patient.setPhoneNumber(newPhoneNumber);
+            person.setSurname(newSurname);
+            System.out.println("Old PhoneNumber:" + person.getPhoneNumber() + "  New phoneNumber... ");
+            long newPhoneNumber = Long.parseLong(in.nextLine());
+            person.setPhoneNumber(newPhoneNumber);
             System.out.println("-- Completed --");
         } else {
             System.out.println("-- Patient by this Id is not found --");
