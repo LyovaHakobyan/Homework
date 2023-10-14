@@ -3,14 +3,14 @@ package homeworks.medicalcenter;
 import homeworks.medicalcenter.models.Doctor;
 import homeworks.medicalcenter.models.Patient;
 import homeworks.medicalcenter.models.Person;
-import homeworks.medicalcenter.storages.Storage;
+import homeworks.medicalcenter.storages.PersonStorage;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
 public class PatientManagement {
-    static Storage storage = new Storage();
+    static PersonStorage storage = new PersonStorage();
     static Scanner in = new Scanner(System.in);
 
     public static void main(String[] args) {

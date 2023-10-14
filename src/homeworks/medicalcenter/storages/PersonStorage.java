@@ -4,11 +4,11 @@ import homeworks.medicalcenter.models.Doctor;
 import homeworks.medicalcenter.models.Patient;
 import homeworks.medicalcenter.models.Person;
 
-public class Storage {
+public class PersonStorage {
     private Person[] persons;
     private int size;
 
-    public Storage() {
+    public PersonStorage() {
         persons = new Person[10];
         size = 0;
     }
