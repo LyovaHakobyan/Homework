@@ -3,6 +3,11 @@ package homeworks.medicalcenter.storages;
 import homeworks.medicalcenter.models.Doctor;
 import homeworks.medicalcenter.models.Patient;
 import homeworks.medicalcenter.models.Person;
+import homeworks.medicalcenter.util.DateUtil;
+
+
+import java.util.Date;
+
 
 public class PersonStorage {
     private Person[] persons;
@@ -94,6 +99,19 @@ public class PersonStorage {
                 }
             }
         }
+    }
+
+    public boolean checkExistenceOfPatientRegisteredInSameDate(Date date, Person person) {
+        Doctor doctor = (Doctor) person;
+        for (int i = 0; i < size; i++) {
+            if (persons[i].getClass() == Patient.class) {
+                Patient patient = (Patient) persons[i];
+                if (patient.getDoctor().equals(doctor) && DateUtil.disturbEachOtherIn30MinDifference(patient.getRegisterDateTime(), date)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void extend() {

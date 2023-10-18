@@ -4,16 +4,20 @@ import homeworks.medicalcenter.models.Doctor;
 import homeworks.medicalcenter.models.Patient;
 import homeworks.medicalcenter.models.Person;
 import homeworks.medicalcenter.storages.PersonStorage;
+import homeworks.medicalcenter.util.DateUtil;
 
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Scanner;
 
 public class PatientManagement {
     static PersonStorage storage = new PersonStorage();
     static Scanner in = new Scanner(System.in);
+    static Date date = new Date();
+    static Date todayDate = new Date();
 
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws ParseException {
         boolean truth = true;
         while (truth) {
             options();
@@ -153,7 +157,7 @@ public class PatientManagement {
         }
     }
 
-    private static void addPatient() {
+    private static void addPatient() throws ParseException {
         System.out.println("Name...");
         String patientName = in.nextLine();
         System.out.println("Surname...");
@@ -187,9 +191,23 @@ public class PatientManagement {
                 temp = false;
             }
         }
-        Date d = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy hh:mm");
-        String date = sdf.format(d);
+        System.out.println("Date and time when patient wants to visit the Doctor (\"MM-dd-yyyy hh:mm\")...");
+        while (true) {
+            while (true) {
+                String dateStr = in.nextLine();
+                date = DateUtil.stringToDate(dateStr);
+                if (todayDate.after(date)) {
+                    System.out.println("-- This date is old, try again --");
+                } else {
+                    break;
+                }
+            }
+            if (storage.checkExistenceOfPatientRegisteredInSameDate(date, storage.returnPersonById(id))) {
+                System.out.println("-- Doctor is buys at that time --");
+            } else {
+                break;
+            }
+        }
         Patient patient = new Patient(patientName, patientSurname, patientId, patientPhoneNumber, (Doctor) storage.returnPersonById(id), date);
         storage.add(patient);
         System.out.println("-- Completed --");

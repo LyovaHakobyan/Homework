@@ -1,12 +1,15 @@
 package homeworks.medicalcenter.models;
 
+import homeworks.medicalcenter.util.DateUtil;
+
+import java.util.Date;
 import java.util.Objects;
 
 public class Patient extends Person {
     private Doctor doctor;
-    private String registerDateTime;
+    private Date registerDateTime;
 
-    public Patient(String name, String surname, String id, long phoneNumber, Doctor doctor, String registerDateTime) {
+    public Patient(String name, String surname, String id, long phoneNumber, Doctor doctor, Date registerDateTime) {
         super(name, surname, id, phoneNumber);
         this.doctor = doctor;
         this.registerDateTime = registerDateTime;
@@ -23,17 +26,17 @@ public class Patient extends Person {
         this.doctor = doctor;
     }
 
-    public String getRegisterDateTime() {
+    public Date getRegisterDateTime() {
         return registerDateTime;
     }
 
-    public void setRegisterDateTime(String registerDateTime) {
+    public void setRegisterDateTime(Date registerDateTime) {
         this.registerDateTime = registerDateTime;
     }
 
     @Override
     public String toString() {
-        return "Patient name:" + getName() + " Surname:" + getSurname() + " PhoneNumber:" + getPhoneNumber() + " ID:" + getId() + " Doctor:" + doctor + " RegisterDate:" + registerDateTime;
+        return "Patient name:" + getName() + " Surname:" + getSurname() + " PhoneNumber:" + getPhoneNumber() + " ID:" + getId() + " Doctor:" + doctor + " RegisterDate:" + DateUtil.dateTostring(registerDateTime);
     }
 
     @Override
