@@ -17,11 +17,16 @@ public class PatientManagement {
     static Date todayDate = new Date();
 
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
         boolean truth = true;
         while (truth) {
             options();
-            int choice = Integer.parseInt(in.nextLine());
+            int choice = 0;
+            try {
+                choice = Integer.parseInt(in.nextLine());
+            } catch (NumberFormatException e) {
+                choice = -1;
+            }
             switch (choice) {
                 case 0:
                     System.out.println("-- The process is finished --");
@@ -84,7 +89,12 @@ public class PatientManagement {
         System.out.println("Surname...");
         String doctorSurname = in.nextLine();
         System.out.println("PhoneNumber...");
-        long doctorPhoneNumber = Long.parseLong(in.nextLine());
+        long doctorPhoneNumber = 0;
+        try {
+            doctorPhoneNumber = Long.parseLong(in.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("-- Wrong input, use only numbers --");
+        }
         boolean temp = true;
         String doctorId = null;
         while (temp) {
@@ -143,7 +153,12 @@ public class PatientManagement {
             String newSurname = in.nextLine();
             person.setSurname(newSurname);
             System.out.println("Old PhoneNumber:" + person.getPhoneNumber() + "  New phoneNumber... ");
-            long newPhoneNumber = Long.parseLong(in.nextLine());
+            long newPhoneNumber = 0;
+            try {
+                newPhoneNumber = Long.parseLong(in.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("-- Wrong input, try again --");
+            }
             person.setPhoneNumber(newPhoneNumber);
             System.out.println("Old Email:" + ((Doctor) person).getEmail() + "  New Email... ");
             String newEmail = in.nextLine();
@@ -157,7 +172,7 @@ public class PatientManagement {
         }
     }
 
-    private static void addPatient() throws ParseException {
+    private static void addPatient() {
         System.out.println("Name...");
         String patientName = in.nextLine();
         System.out.println("Surname...");
@@ -175,7 +190,12 @@ public class PatientManagement {
             }
         }
         System.out.println("PhoneNumber...");
-        long patientPhoneNumber = Long.parseLong(in.nextLine());
+        long patientPhoneNumber = 0;
+        try {
+            patientPhoneNumber = Long.parseLong(in.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("-- Wrong input, try again --");
+        }
         System.out.println("Doctor id where he will be registered...");
         storage.printAllDoctors();
         String id = null;
@@ -195,7 +215,13 @@ public class PatientManagement {
         while (true) {
             while (true) {
                 String dateStr = in.nextLine();
-                date = DateUtil.stringToDate(dateStr);
+                try {
+                    date = DateUtil.stringToDate(dateStr);
+                } catch (ParseException e) {
+                    System.out.println("-- Wrong input of the Date --");
+                    System.out.println("-- ADD Patient is FAILED ! --");
+                    return;
+                }
                 if (todayDate.after(date)) {
                     System.out.println("-- This date is old, try again --");
                 } else {
@@ -253,7 +279,12 @@ public class PatientManagement {
             String newSurname = in.nextLine();
             person.setSurname(newSurname);
             System.out.println("Old PhoneNumber:" + person.getPhoneNumber() + "  New phoneNumber... ");
-            long newPhoneNumber = Long.parseLong(in.nextLine());
+            long newPhoneNumber = 0;
+            try {
+                newPhoneNumber = Long.parseLong(in.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("-- Wrong input, try again --");
+            }
             person.setPhoneNumber(newPhoneNumber);
             System.out.println("-- Completed --");
         } else {

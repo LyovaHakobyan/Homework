@@ -44,7 +44,7 @@ public class PersonStorage {
 
     public void printAllPatients() {
         for (int i = 0; i < size; i++) {
-            if (persons[i].getClass() == Patient.class) {
+            if (persons[i] instanceof Patient) {
                 System.out.println(persons[i]);
             }
         }
