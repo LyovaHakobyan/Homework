@@ -21,7 +21,7 @@ public class PatientManagement {
         boolean truth = true;
         while (truth) {
             options();
-            int choice = 0;
+            int choice;
             try {
                 choice = Integer.parseInt(in.nextLine());
             } catch (NumberFormatException e) {
