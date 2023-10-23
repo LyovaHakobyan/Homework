@@ -228,27 +228,26 @@ public class PatientManagement {
                 String dateStr = in.nextLine();
                 try {
                     date = DateUtil.stringToDate(dateStr);
+                    if (todayDate.after(date)) {
+                        System.out.println("-- This date is old, try again --");
+                    } else {
+                        break;
+                    }
                 } catch (ParseException e) {
                     System.out.println("-- Wrong input of the Date --");
-                    System.out.println("-- ADD Patient is FAILED ! --");
+                    System.out.println("-- Process is FAILED ! --");
                     return;
-                }
-                if (todayDate.after(date)) {
-                    System.out.println("-- This date is old, try again --");
-                } else {
-                    break;
                 }
             }
             try {
                 if (storage.checkExistenceOfPatientRegisteredInSameDate(date, storage.returnPersonById(id))) {
                     System.out.println("-- Doctor is buys at that time --");
                 } else {
+                    Patient patient = new Patient(patientName, patientSurname, patientId, patientPhoneNumber, (Doctor) storage.returnPersonById(id), date);
+                    storage.add(patient);
                     break;
                 }
-                Patient patient = new Patient(patientName, patientSurname, patientId, patientPhoneNumber, (Doctor) storage.returnPersonById(id), date);
-                storage.add(patient);
-            } catch (PersonNotFoundException e) {
-                break;
+            } catch (PersonNotFoundException ignored) {
             }
         }
         System.out.println("-- Completed --");
