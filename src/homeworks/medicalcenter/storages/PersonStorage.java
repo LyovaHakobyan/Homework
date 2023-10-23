@@ -1,5 +1,6 @@
 package homeworks.medicalcenter.storages;
 
+import homeworks.medicalcenter.exceptions.PersonNotFoundException;
 import homeworks.medicalcenter.models.Doctor;
 import homeworks.medicalcenter.models.Patient;
 import homeworks.medicalcenter.models.Person;
@@ -25,13 +26,13 @@ public class PersonStorage {
         persons[size++] = person;
     }
 
-    public Person returnPersonById(String id) {
+    public Person returnPersonById(String id) throws PersonNotFoundException {
         for (int i = 0; i < size; i++) {
             if (persons[i].getId().equals(id)) {
                 return persons[i];
             }
         }
-        return null;
+        throw new PersonNotFoundException();
     }
 
     public void printAllDoctors() {

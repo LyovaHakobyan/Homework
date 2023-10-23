@@ -1,5 +1,6 @@
 package homeworks.medicalcenter;
 
+import homeworks.medicalcenter.exceptions.PersonNotFoundException;
 import homeworks.medicalcenter.models.Doctor;
 import homeworks.medicalcenter.models.Patient;
 import homeworks.medicalcenter.models.Person;
@@ -100,10 +101,10 @@ public class PatientManagement {
         while (temp) {
             System.out.println("Id...");
             doctorId = in.nextLine();
-            Person person = storage.returnPersonById(doctorId);
-            if (person != null) {
+            try {
+                Person person = storage.returnPersonById(doctorId);
                 System.out.println("-- This ID is already used --");
-            } else {
+            } catch (PersonNotFoundException e) {
                 temp = false;
             }
         }
@@ -131,12 +132,16 @@ public class PatientManagement {
     private static void deleteDoctor() {
         System.out.println("-- Enter the ID of the doctor who you want to delete --");
         String id = in.nextLine();
-        Person person = storage.returnPersonById(id);
-        if (person != null && person.getClass() == Doctor.class) {
-            storage.deletePerson(person);
-            storage.deletePatientsByDoctor(person);
-            System.out.println("-- Doctor is deleted --");
-        } else {
+        try {
+            Person person = storage.returnPersonById(id);
+            if (person instanceof Doctor) {
+                storage.deletePerson(person);
+                storage.deletePatientsByDoctor(person);
+                System.out.println("-- Doctor is deleted --");
+            } else {
+                throw new PersonNotFoundException();
+            }
+        } catch (PersonNotFoundException e) {
             System.out.println("-- Doctor by this ID is not found --");
         }
     }
@@ -144,30 +149,34 @@ public class PatientManagement {
     private static void changeDoctorById() {
         System.out.println("-- Enter the ID of the doctor who you want to change --");
         String id = in.nextLine();
-        Person person = storage.returnPersonById(id);
-        if (person != null && person.getClass() == Doctor.class) {
-            System.out.println("Old name:" + person.getName() + "  New name... ");
-            String newName = in.nextLine();
-            person.setName(newName);
-            System.out.println("Old surname:" + person.getSurname() + "  New surname... ");
-            String newSurname = in.nextLine();
-            person.setSurname(newSurname);
-            System.out.println("Old PhoneNumber:" + person.getPhoneNumber() + "  New phoneNumber... ");
-            long newPhoneNumber = 0;
-            try {
-                newPhoneNumber = Long.parseLong(in.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("-- Wrong input, try again --");
+        try {
+            Person person = storage.returnPersonById(id);
+            if (person instanceof Doctor) {
+                System.out.println("Old name:" + person.getName() + "  New name... ");
+                String newName = in.nextLine();
+                person.setName(newName);
+                System.out.println("Old surname:" + person.getSurname() + "  New surname... ");
+                String newSurname = in.nextLine();
+                person.setSurname(newSurname);
+                System.out.println("Old PhoneNumber:" + person.getPhoneNumber() + "  New phoneNumber... ");
+                long newPhoneNumber = 0;
+                try {
+                    newPhoneNumber = Long.parseLong(in.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("-- Wrong input, try again --");
+                }
+                person.setPhoneNumber(newPhoneNumber);
+                System.out.println("Old Email:" + ((Doctor) person).getEmail() + "  New Email... ");
+                String newEmail = in.nextLine();
+                ((Doctor) person).setEmail(newEmail);
+                System.out.println("Old profession:" + ((Doctor) person).getProfession() + "  New profession... ");
+                String newProfession = in.nextLine();
+                ((Doctor) person).setProfession(newProfession);
+                System.out.println("-- Completed --");
+            } else {
+                throw new PersonNotFoundException();
             }
-            person.setPhoneNumber(newPhoneNumber);
-            System.out.println("Old Email:" + ((Doctor) person).getEmail() + "  New Email... ");
-            String newEmail = in.nextLine();
-            ((Doctor) person).setEmail(newEmail);
-            System.out.println("Old profession:" + ((Doctor) person).getProfession() + "  New profession... ");
-            String newProfession = in.nextLine();
-            ((Doctor) person).setProfession(newProfession);
-            System.out.println("-- Completed --");
-        } else {
+        } catch (PersonNotFoundException e) {
             System.out.println("-- Doctor by this ID is not found --");
         }
     }
@@ -182,10 +191,10 @@ public class PatientManagement {
         while (temp) {
             System.out.println("Id...");
             patientId = in.nextLine();
-            Person person = storage.returnPersonById(patientId);
-            if (person != null) {
+            try {
+                Person person = storage.returnPersonById(patientId);
                 System.out.println("-- This ID is already used --");
-            } else {
+            } catch (PersonNotFoundException e) {
                 temp = false;
             }
         }
@@ -194,7 +203,7 @@ public class PatientManagement {
         try {
             patientPhoneNumber = Long.parseLong(in.nextLine());
         } catch (NumberFormatException e) {
-            System.out.println("-- Wrong input, try again --");
+            System.out.println("-- Wrong input, use only numbers --");
         }
         System.out.println("Doctor id where he will be registered...");
         storage.printAllDoctors();
@@ -202,13 +211,15 @@ public class PatientManagement {
         temp = true;
         while (temp) {
             id = in.nextLine();
-            Person person = storage.returnPersonById(id);
-            if (person != null && person.getClass() == Patient.class) {
+            try {
+                Person person = storage.returnPersonById(id);
+                if (person instanceof Patient) {
+                    System.out.println("-- Wrong Id, try again --");
+                } else {
+                    temp = false;
+                }
+            } catch (PersonNotFoundException e) {
                 System.out.println("-- Wrong Id, try again --");
-            } else if (person == null) {
-                System.out.println("-- Wrong Id, try again --");
-            } else {
-                temp = false;
             }
         }
         System.out.println("Date and time when patient wants to visit the Doctor (\"MM-dd-yyyy hh:mm\")...");
@@ -228,24 +239,32 @@ public class PatientManagement {
                     break;
                 }
             }
-            if (storage.checkExistenceOfPatientRegisteredInSameDate(date, storage.returnPersonById(id))) {
-                System.out.println("-- Doctor is buys at that time --");
-            } else {
+            try {
+                if (storage.checkExistenceOfPatientRegisteredInSameDate(date, storage.returnPersonById(id))) {
+                    System.out.println("-- Doctor is buys at that time --");
+                } else {
+                    break;
+                }
+                Patient patient = new Patient(patientName, patientSurname, patientId, patientPhoneNumber, (Doctor) storage.returnPersonById(id), date);
+                storage.add(patient);
+            } catch (PersonNotFoundException e) {
                 break;
             }
         }
-        Patient patient = new Patient(patientName, patientSurname, patientId, patientPhoneNumber, (Doctor) storage.returnPersonById(id), date);
-        storage.add(patient);
         System.out.println("-- Completed --");
     }
 
     static private void printAllPatientsByDoctor() {
         System.out.println("-- Enter ID of the doctor if you want to see the patients --");
         String idOfDoctor = in.nextLine();
-        Person person = storage.returnPersonById(idOfDoctor);
-        if (person != null && person.getClass() == Doctor.class) {
-            storage.returnPatientByDoctor(person);
-        } else {
+        try {
+            Person person = storage.returnPersonById(idOfDoctor);
+            if (person instanceof Doctor) {
+                storage.returnPatientByDoctor(person);
+            } else {
+                throw new PersonNotFoundException();
+            }
+        } catch (PersonNotFoundException e) {
             System.out.println("-- Doctor by this ID is not found --");
         }
     }
@@ -258,11 +277,15 @@ public class PatientManagement {
     static private void deletePatientById() {
         System.out.println("-- Enter the ID of the patient who you want to delete --");
         String id = in.nextLine();
-        Person person = storage.returnPersonById(id);
-        if (person != null && person.getClass() == Patient.class) {
-            storage.deletePerson(person);
-            System.out.println("-- The patient is deleted --");
-        } else {
+        try {
+            Person person = storage.returnPersonById(id);
+            if (person instanceof Patient) {
+                storage.deletePerson(person);
+                System.out.println("-- The patient is deleted --");
+            } else {
+                throw new PersonNotFoundException();
+            }
+        } catch (PersonNotFoundException e) {
             System.out.println("-- The patient by this Id is not found --");
         }
     }
@@ -270,24 +293,28 @@ public class PatientManagement {
     static private void changePatientById() {
         System.out.println("-- Enter the ID of the patient who you want to change --");
         String id = in.nextLine();
-        Person person = storage.returnPersonById(id);
-        if (person != null && person.getClass() == Patient.class) {
-            System.out.println("Old name:" + person.getName() + "  New name... ");
-            String newName = in.nextLine();
-            person.setName(newName);
-            System.out.println("Old surname:" + person.getSurname() + "  New surname... ");
-            String newSurname = in.nextLine();
-            person.setSurname(newSurname);
-            System.out.println("Old PhoneNumber:" + person.getPhoneNumber() + "  New phoneNumber... ");
-            long newPhoneNumber = 0;
-            try {
-                newPhoneNumber = Long.parseLong(in.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("-- Wrong input, try again --");
+        try {
+            Person person = storage.returnPersonById(id);
+            if (person instanceof Patient) {
+                System.out.println("Old name:" + person.getName() + "  New name... ");
+                String newName = in.nextLine();
+                person.setName(newName);
+                System.out.println("Old surname:" + person.getSurname() + "  New surname... ");
+                String newSurname = in.nextLine();
+                person.setSurname(newSurname);
+                System.out.println("Old PhoneNumber:" + person.getPhoneNumber() + "  New phoneNumber... ");
+                long newPhoneNumber = 0;
+                try {
+                    newPhoneNumber = Long.parseLong(in.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("-- Wrong input, try again --");
+                }
+                person.setPhoneNumber(newPhoneNumber);
+                System.out.println("-- Completed --");
+            } else {
+                throw new PersonNotFoundException();
             }
-            person.setPhoneNumber(newPhoneNumber);
-            System.out.println("-- Completed --");
-        } else {
+        } catch (PersonNotFoundException e) {
             System.out.println("-- Patient by this Id is not found --");
         }
     }
