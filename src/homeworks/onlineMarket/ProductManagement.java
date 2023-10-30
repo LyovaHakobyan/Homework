@@ -15,11 +15,12 @@ import homeworks.onlineMarket.storages.ProductStorage;
 import homeworks.onlineMarket.storages.UserStorage;
 import homeworks.onlineMarket.util.UuidUtil;
 
+
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
-import java.util.UUID;
+
 
 public class ProductManagement {
     static Scanner in = new Scanner(System.in);
@@ -129,7 +130,6 @@ public class ProductManagement {
         switch (user.getUserType()) {
             case ADMIN:
                 loginAsAdmin(user);
-
                 break;
             case USER:
                 loginAsUser(user);
