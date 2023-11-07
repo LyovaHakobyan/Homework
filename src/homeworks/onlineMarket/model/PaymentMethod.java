@@ -1,4 +1,4 @@
-package homeworks.onlineMarket.models;
+package homeworks.onlineMarket.model;
 
 public enum PaymentMethod {
     CARD,CASH,PAYPAL

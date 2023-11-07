@@ -1,4 +1,4 @@
-package homeworks.medicalcenter.exceptions;
+package homeworks.medicalcenter.exception;
 
 public class PersonNotFoundException extends Exception {
     public PersonNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {

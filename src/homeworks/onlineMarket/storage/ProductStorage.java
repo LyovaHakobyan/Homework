@@ -1,11 +1,13 @@
-package homeworks.onlineMarket.storages;
+package homeworks.onlineMarket.storage;
 
-import homeworks.onlineMarket.exceptions.NotFoundException;
-import homeworks.onlineMarket.exceptions.OutOfStockException;
-import homeworks.onlineMarket.interfaces.Printable;
-import homeworks.onlineMarket.models.Product;
+import homeworks.onlineMarket.exception.NotFoundException;
+import homeworks.onlineMarket.exception.OutOfStockException;
+import homeworks.onlineMarket.model.Product;
+import homeworks.onlineMarket.util.StorageSerializeUtil;
 
-public class ProductStorage implements Printable {
+import java.io.Serializable;
+
+public class ProductStorage implements Serializable {
     private Product[] products;
     private int size;
 
@@ -19,6 +21,7 @@ public class ProductStorage implements Printable {
             extend();
         }
         products[size++] = product;
+        StorageSerializeUtil.serializeProductStorage(this);
     }
 
     public void removeProductById(String id) throws NotFoundException {
@@ -30,11 +33,12 @@ public class ProductStorage implements Printable {
                 }
                 numberOfProducts++;
                 size--;
+                StorageSerializeUtil.serializeProductStorage(this);
                 break;
             }
         }
         if (numberOfProducts == 0) {
-            throw new NotFoundException();
+            throw new NotFoundException("no such product");
         }
     }
 
@@ -44,10 +48,9 @@ public class ProductStorage implements Printable {
                 return products[i];
             }
         }
-        throw new NotFoundException();
+        throw new NotFoundException("no such product");
     }
 
-    @Override
     public void printAll() {
         for (int i = 0; i < size; i++) {
             System.out.println(products[i]);
@@ -58,7 +61,7 @@ public class ProductStorage implements Printable {
         for (int i = 0; i < size; i++) {
             if (products[i].getProductId().equals(id)) {
                 if (quantity > products[i].getStockQty()) {
-                    throw new OutOfStockException();
+                    throw new OutOfStockException("no such product");
                 }
             }
         }
@@ -68,7 +71,7 @@ public class ProductStorage implements Printable {
         for (int i = 0; i < size; i++) {
             if (products[i].getProductId().equals(id)) {
                 if (quantity > products[i].getStockQty()) {
-                    throw new OutOfStockException();
+                    throw new OutOfStockException("no such product");
                 } else if (quantity == products[i].getStockQty()) {
                     try {
                         removeProductById(id);
@@ -77,6 +80,7 @@ public class ProductStorage implements Printable {
                     }
                 } else {
                     products[i].setStockQty(products[i].getStockQty() - quantity);
+                    StorageSerializeUtil.serializeProductStorage(this);
                 }
             }
         }

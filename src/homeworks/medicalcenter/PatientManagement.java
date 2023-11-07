@@ -1,10 +1,10 @@
 package homeworks.medicalcenter;
 
-import homeworks.medicalcenter.exceptions.PersonNotFoundException;
-import homeworks.medicalcenter.models.Doctor;
-import homeworks.medicalcenter.models.Patient;
-import homeworks.medicalcenter.models.Person;
-import homeworks.medicalcenter.storages.PersonStorage;
+import homeworks.medicalcenter.exception.PersonNotFoundException;
+import homeworks.medicalcenter.model.Doctor;
+import homeworks.medicalcenter.model.Patient;
+import homeworks.medicalcenter.model.Person;
+import homeworks.medicalcenter.storage.PersonStorage;
 import homeworks.medicalcenter.util.DateUtil;
 
 import java.text.ParseException;

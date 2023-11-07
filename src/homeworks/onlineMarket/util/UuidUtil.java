@@ -2,7 +2,7 @@ package homeworks.onlineMarket.util;
 
 import java.util.UUID;
 
-public class UuidUtil {
+public abstract class UuidUtil {
     static UUID uuid = UUID.randomUUID();
 
     public static String getUuid() {

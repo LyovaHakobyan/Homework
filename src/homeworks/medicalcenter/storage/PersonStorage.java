@@ -1,9 +1,9 @@
-package homeworks.medicalcenter.storages;
+package homeworks.medicalcenter.storage;
 
-import homeworks.medicalcenter.exceptions.PersonNotFoundException;
-import homeworks.medicalcenter.models.Doctor;
-import homeworks.medicalcenter.models.Patient;
-import homeworks.medicalcenter.models.Person;
+import homeworks.medicalcenter.exception.PersonNotFoundException;
+import homeworks.medicalcenter.model.Doctor;
+import homeworks.medicalcenter.model.Patient;
+import homeworks.medicalcenter.model.Person;
 import homeworks.medicalcenter.util.DateUtil;
 
 

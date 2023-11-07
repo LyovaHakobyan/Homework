@@ -1,18 +1,19 @@
 package homeworks.onlineMarket;
 
-import homeworks.onlineMarket.models.OrderStatus;
-import homeworks.onlineMarket.models.PaymentMethod;
-import homeworks.onlineMarket.models.ProductType;
-import homeworks.onlineMarket.models.UserType;
-import homeworks.onlineMarket.exceptions.NotFoundException;
-import homeworks.onlineMarket.exceptions.OutOfStockException;
-import homeworks.onlineMarket.interfaces.Command;
-import homeworks.onlineMarket.models.Order;
-import homeworks.onlineMarket.models.Product;
-import homeworks.onlineMarket.models.User;
-import homeworks.onlineMarket.storages.OrderStorage;
-import homeworks.onlineMarket.storages.ProductStorage;
-import homeworks.onlineMarket.storages.UserStorage;
+import homeworks.onlineMarket.model.OrderStatus;
+import homeworks.onlineMarket.model.PaymentMethod;
+import homeworks.onlineMarket.model.ProductType;
+import homeworks.onlineMarket.model.UserType;
+import homeworks.onlineMarket.exception.NotFoundException;
+import homeworks.onlineMarket.exception.OutOfStockException;
+import homeworks.onlineMarket.model.Order;
+import homeworks.onlineMarket.model.Product;
+import homeworks.onlineMarket.model.User;
+import homeworks.onlineMarket.storage.OrderStorage;
+import homeworks.onlineMarket.storage.ProductStorage;
+import homeworks.onlineMarket.storage.UserStorage;
+import homeworks.onlineMarket.util.Command;
+import homeworks.onlineMarket.util.StorageSerializeUtil;
 import homeworks.onlineMarket.util.UuidUtil;
 
 
@@ -22,11 +23,11 @@ import java.util.Date;
 import java.util.Scanner;
 
 
-public class ProductManagement {
+public class ProductManagement implements Command {
     static Scanner in = new Scanner(System.in);
-    static UserStorage userStorage = new UserStorage();
-    static OrderStorage orderStorage = new OrderStorage();
-    static ProductStorage productStorage = new ProductStorage();
+    static UserStorage userStorage = StorageSerializeUtil.deserializeUserStorage();
+    static OrderStorage orderStorage = StorageSerializeUtil.deserializeOrderStorage();
+    static ProductStorage productStorage = StorageSerializeUtil.deserializeProductStorage();
     static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm");
 
     public static void main(String[] args) {
@@ -40,13 +41,13 @@ public class ProductManagement {
                 choice = -1;
             }
             switch (choice) {
-                case 0:
+                case LOG_IN:
                     logIn();
                     break;
-                case 1:
+                case REGISTER:
                     register();
                     break;
-                case 2:
+                case FINISH_PROCESS:
                     process = false;
                     break;
                 default:
@@ -94,7 +95,7 @@ public class ProductManagement {
         while (true) {
             email = in.nextLine();
             try {
-                userStorage.returnUserByEmail(email);
+                userStorage.getUserByEmail(email);
                 System.out.println("-- This Email is already used, try again --");
             } catch (NotFoundException e) {
                 break;
@@ -112,7 +113,7 @@ public class ProductManagement {
         String email = in.nextLine();
         User user;
         try {
-            user = userStorage.returnUserByEmail(email);
+            user = userStorage.getUserByEmail(email);
         } catch (NotFoundException e) {
             System.out.println("-- Wrong Email --");
             return;
@@ -150,26 +151,26 @@ public class ProductManagement {
                 choice = -1;
             }
             switch (choice) {
-                case 0:
+                case LOGOUT:
                     System.out.println("Logout...");
                     process = false;
                     break;
-                case 1:
+                case ADD_PRODUCT:
                     addProduct();
                     break;
-                case 2:
+                case REMOVE_PRODUCT:
                     removeProduct();
                     break;
-                case 3:
+                case PRINT_PRODUCTS:
                     printProducts();
                     break;
-                case 4:
+                case PRINT_USERS:
                     printUsers();
                     break;
-                case 5:
+                case PRINT_ORDERS:
                     printOrders();
                     break;
-                case 6:
+                case CHANGE_ORDER_STATUS:
                     changeOrderStatus();
                     break;
                 default:
@@ -191,20 +192,20 @@ public class ProductManagement {
                 choice = -1;
             }
             switch (choice) {
-                case 0:
+                case LOGOUT:
                     System.out.println("Logout...");
                     process = false;
                     break;
-                case 1:
-                    printProducts();
-                    break;
-                case 2:
-                    buyProduct(user);
-                    break;
-                case 3:
+                case PRINT_MY_ORDERS:
                     printMyOrders(user);
                     break;
-                case 4:
+                case BUY_PRODUCT:
+                    buyProduct(user);
+                    break;
+                case PRINT_PRODUCTS:
+                    printProducts();
+                    break;
+                case CANCEL_ORDER:
                     cancelMyOrder();
                     break;
                 default:
@@ -292,7 +293,7 @@ public class ProductManagement {
         String orderId = in.nextLine();
         Order order;
         try {
-            order = orderStorage.returnOrderById(orderId);
+            order = orderStorage.getOrderById(orderId);
         } catch (NotFoundException e) {
             System.out.println("-- Order by this Id is not found --");
             return;
@@ -328,6 +329,7 @@ public class ProductManagement {
                 orderStorage.changeOrderStatus(order, orderStatus);
                 try {
                     productStorage.buyProduct(orderId, order.getQuantity());
+                    StorageSerializeUtil.serializeOrderStorage(orderStorage);
                     System.out.println("-- Order is changed --");
                 } catch (OutOfStockException e) {
                     System.out.println("-- There is not as much product as you have entered --");
@@ -415,7 +417,7 @@ public class ProductManagement {
         String idForCancel = in.nextLine();
         Order order;
         try {
-            order = orderStorage.returnOrderById(idForCancel);
+            order = orderStorage.getOrderById(idForCancel);
         } catch (NotFoundException e) {
             System.out.println("-- Order not found by this Id --");
             return;

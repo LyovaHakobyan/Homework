@@ -1,7 +1,7 @@
-package homeworks.employee.storages;
+package homeworks.employee.storage;
 
-import homeworks.employee.models.Company;
-import homeworks.employee.models.Employee;
+import homeworks.employee.model.Company;
+import homeworks.employee.model.Employee;
 
 public class EmployeeStorage {
     private Employee[] employees;

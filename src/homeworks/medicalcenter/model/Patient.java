@@ -1,4 +1,4 @@
-package homeworks.medicalcenter.models;
+package homeworks.medicalcenter.model;
 
 import homeworks.medicalcenter.util.DateUtil;
 

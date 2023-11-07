@@ -1,11 +1,13 @@
-package homeworks.onlineMarket.storages;
+package homeworks.onlineMarket.storage;
 
-import homeworks.onlineMarket.models.UserType;
-import homeworks.onlineMarket.exceptions.NotFoundException;
-import homeworks.onlineMarket.interfaces.Printable;
-import homeworks.onlineMarket.models.User;
+import homeworks.onlineMarket.model.UserType;
+import homeworks.onlineMarket.exception.NotFoundException;
+import homeworks.onlineMarket.model.User;
+import homeworks.onlineMarket.util.StorageSerializeUtil;
 
-public class UserStorage implements Printable {
+import java.io.Serializable;
+
+public class UserStorage implements Serializable {
     private User[] users;
     private int size;
 
@@ -19,9 +21,9 @@ public class UserStorage implements Printable {
             extend();
         }
         users[size++] = user;
+        StorageSerializeUtil.serializeUserStorage(this);
     }
 
-    @Override
     public void printAll() {
         for (int i = 0; i < size; i++) {
             System.out.println(users[i]);
@@ -42,16 +44,16 @@ public class UserStorage implements Printable {
                 return users[i];
             }
         }
-        throw new NotFoundException();
+        throw new NotFoundException("no such user");
     }
 
-    public User returnUserByEmail(String email) throws NotFoundException {
+    public User getUserByEmail(String email) throws NotFoundException {
         for (int i = 0; i < size; i++) {
             if (users[i].getUserEmail().equals(email)) {
                 return users[i];
             }
         }
-        throw new NotFoundException();
+        throw new NotFoundException("no such user");
     }
 
     public boolean checkPassword(User user, String password) {

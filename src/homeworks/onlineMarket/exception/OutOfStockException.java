@@ -1,4 +1,4 @@
-package homeworks.onlineMarket.exceptions;
+package homeworks.onlineMarket.exception;
 
 public class OutOfStockException extends Exception{
     public OutOfStockException() {

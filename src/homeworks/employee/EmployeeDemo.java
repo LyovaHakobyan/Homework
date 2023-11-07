@@ -1,9 +1,9 @@
 package homeworks.employee;
 
-import homeworks.employee.models.Company;
-import homeworks.employee.models.Employee;
-import homeworks.employee.storages.CompanyStorage;
-import homeworks.employee.storages.EmployeeStorage;
+import homeworks.employee.model.Company;
+import homeworks.employee.model.Employee;
+import homeworks.employee.storage.CompanyStorage;
+import homeworks.employee.storage.EmployeeStorage;
 
 import java.util.Scanner;
 

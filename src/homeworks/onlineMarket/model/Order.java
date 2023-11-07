@@ -1,6 +1,8 @@
-package homeworks.onlineMarket.models;
+package homeworks.onlineMarket.model;
 
-public class Order {
+import java.io.Serializable;
+
+public class Order implements Serializable {
     private String orderId;
     private User user;
     private Product product;
