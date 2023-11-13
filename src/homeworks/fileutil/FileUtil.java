@@ -15,6 +15,28 @@ public class FileUtil {
     // 1 - path թե որ ֆոլդերում ենք փնտրելու
     // 2 - fileName - ֆայլի անունը, որը փնտրում ենք։
     //Որպես արդյունք պտի ծրագիրը տպի true եթե կա էդ ֆայլը էդ պապկի մեջ, false եթե չկա։
+
+    // With recursion
+//    static void fileSearch(String path, String fileName) {
+//        File file = new File(path);
+//        if (file.isDirectory()) {
+//            File[] files = file.listFiles();
+//            if (files != null) {
+//                for (File value : files) {
+//                    if(value.isDirectory()){
+//                        fileSearch(value.getAbsolutePath(), fileName);
+//                    } else {
+//                        if(value.getName().equals(fileName)){
+//                            System.out.println("true");;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+
+    // Without recursion
     static void fileSearch() {
         System.out.println("Folder path...");
         String path = scanner.nextLine();
@@ -43,8 +65,8 @@ public class FileUtil {
     // Մեթոդը պետք է նշված path-ում գտնի բոլոր .txt ֆայլերը, և իրենց մեջ փնտրի
     // մեր տված keyword-ը, եթե գտնի, պետք է տպի տվյալ ֆայլի անունը։
 
-    // --WITH RECURSION--
-//    static void contentSearch(String path, String keyword) {
+    // With recursion
+//    static void contentSearch(String path, String keyword) {// With recursion
 //        File file = new File(path);
 //        File[] files = file.listFiles();
 //        if (files != null) {
@@ -70,7 +92,7 @@ public class FileUtil {
 //        }
 //    }
 
-    // --WITHOUT RECURSION--
+    // Without recursion
     static void contentSearch() {
         System.out.println("Folder path...");
         String path = scanner.nextLine();
@@ -105,6 +127,7 @@ public class FileUtil {
     // 1 - txtPath txt ֆայլի փաթը
     // 2 - keyword - ինչ որ բառ
     // տալու ենք txt ֆայլի տեղը, ու ինչ որ բառ, ինքը տպելու է էն տողերը, որտեղ գտնի էդ բառը։
+
     static void findLines() {
         System.out.println("txtFilePath...");
         String txtPath = scanner.nextLine();
@@ -134,6 +157,24 @@ public class FileUtil {
     //այս մեթոդը պետք է սքաններով վերցնի մեկ string.
     // 1 - path թե որ ֆոլդերի չափն ենք ուզում հաշվել
     // ֆոլդերի բոլոր ֆայլերի չափսերը գումարում ենք իրար, ու տպում
+
+    // With recursion
+//    static double printSizeOfPackage(String path) {
+//        File file = new File(path);
+//        if (!file.isDirectory()) {
+//            return file.length();
+//        }
+//        long size = 0;
+//        File[] files = file.listFiles();
+//        if (files != null) {
+//            for (File value : files) {
+//                size += (long) printSizeOfPackage(value.getAbsolutePath());
+//            }
+//        }
+//        return size;
+//    }
+
+    // Without recursion
     static void printSizeOfPackage() {
         System.out.println("Folder path...");
         String path = scanner.nextLine();
