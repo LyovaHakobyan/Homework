@@ -17,22 +17,22 @@ public class FileUtil {
     //Որպես արդյունք պտի ծրագիրը տպի true եթե կա էդ ֆայլը էդ պապկի մեջ, false եթե չկա։
 
     // With recursion
-//    static void fileSearch(String path, String fileName) {
+//    static boolean fileSearch(String path, String fileName) {
 //        File file = new File(path);
-//        if (file.isDirectory()) {
-//            File[] files = file.listFiles();
-//            if (files != null) {
-//                for (File value : files) {
-//                    if(value.isDirectory()){
-//                        fileSearch(value.getAbsolutePath(), fileName);
-//                    } else {
-//                        if(value.getName().equals(fileName)){
-//                            System.out.println("true");;
-//                        }
+//        File[] files = file.listFiles();
+//        if (files != null) {
+//            for (File value : files) {
+//                if (value.isFile() && value.getName().equals(fileName)) {
+//                    return true;
+//                }
+//                if (value.isDirectory()) {
+//                    if (fileSearch(value.getAbsolutePath(), fileName)) {
+//                        return true;
 //                    }
 //                }
 //            }
 //        }
+//        return false;
 //    }
 
 
