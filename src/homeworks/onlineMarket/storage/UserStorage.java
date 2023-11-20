@@ -28,7 +28,7 @@ public class UserStorage implements Serializable {
         }
     }
 
-    public User returnUserById(String id) throws NotFoundException {
+    public User getUserById(String id) throws NotFoundException {
         for (User user : users.values()) {
             if (user.getUserId().equals(id)) {
                 return user;

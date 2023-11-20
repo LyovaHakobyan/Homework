@@ -84,7 +84,7 @@ public class ProductManagement implements Command {
         while (true) {
             id = in.nextLine();
             try {
-                userStorage.returnUserById(id);
+                userStorage.getUserById(id);
                 System.out.println("-- This Id is already used, try again --");
             } catch (NotFoundException e) {
                 break;
@@ -258,7 +258,10 @@ public class ProductManagement implements Command {
             return;
         }
         Product product = new Product(id, name, description, price, quantity, productType);
-        productStorage.addProduct(product);
+        if (!productStorage.addProduct(product)) {
+            System.out.println("-- This product already exists --");
+            return;
+        }
         System.out.println("-- Completed --");
     }
 

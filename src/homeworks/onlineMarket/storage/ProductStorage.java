@@ -15,9 +15,10 @@ public class ProductStorage implements Serializable {
     public ProductStorage() {
     }
 
-    public void addProduct(Product product) {
-        products.add(product);
+    public boolean addProduct(Product product) {
+        boolean added = products.add(product);
         StorageSerializeUtil.serializeProductStorage(this);
+        return added;
     }
 
     public boolean removeProductById(String id) {
