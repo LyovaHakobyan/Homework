@@ -104,7 +104,7 @@ public class ProductManagement implements Command {
         System.out.println("Password...");
         String password = in.nextLine();
         User user = new User(id, name, email, password, userType);
-        userStorage.addUser(user);
+        userStorage.addUser(id, user);
         System.out.println("-- Completed --");
     }
 
@@ -265,12 +265,11 @@ public class ProductManagement implements Command {
     private static void removeProduct() {
         System.out.println("Id...");
         String idOfProduct = in.nextLine();
-        try {
-            productStorage.removeProductById(idOfProduct);
-            System.out.println("-- Product is removed ! --");
-        } catch (NotFoundException e) {
+        if (!productStorage.removeProductById(idOfProduct)) {
             System.out.println("-- Product by this Id is not found --");
+            return;
         }
+        System.out.println("-- Product is removed ! --");
     }
 
     private static void printUsers() {

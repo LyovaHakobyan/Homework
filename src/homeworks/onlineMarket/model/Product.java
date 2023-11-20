@@ -1,6 +1,7 @@
 package homeworks.onlineMarket.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Product implements Serializable {
     private String productId;
@@ -65,6 +66,36 @@ public class Product implements Serializable {
 
     public void setProductType(ProductType productType) {
         this.productType = productType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+
+        if (Double.compare(productPrice, product.productPrice) != 0) return false;
+        if (stockQty != product.stockQty) return false;
+        if (!Objects.equals(productId, product.productId)) return false;
+        if (!Objects.equals(productName, product.productName)) return false;
+        if (!Objects.equals(productDescription, product.productDescription))
+            return false;
+        return productType == product.productType;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = productId != null ? productId.hashCode() : 0;
+        result = 31 * result + (productName != null ? productName.hashCode() : 0);
+        result = 31 * result + (productDescription != null ? productDescription.hashCode() : 0);
+        temp = Double.doubleToLongBits(productPrice);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + stockQty;
+        result = 31 * result + (productType != null ? productType.hashCode() : 0);
+        return result;
     }
 
     @Override

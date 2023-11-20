@@ -17,23 +17,23 @@ public class FileUtil {
     //Որպես արդյունք պտի ծրագիրը տպի true եթե կա էդ ֆայլը էդ պապկի մեջ, false եթե չկա։
 
     // With recursion
-//    static boolean fileSearch(String path, String fileName) {
-//        File file = new File(path);
-//        File[] files = file.listFiles();
-//        if (files != null) {
-//            for (File value : files) {
-//                if (value.isFile() && value.getName().equals(fileName)) {
-//                    return true;
-//                }
-//                if (value.isDirectory()) {
-//                    if (fileSearch(value.getAbsolutePath(), fileName)) {
-//                        return true;
-//                    }
-//                }
-//            }
-//        }
-//        return false;
-//    }
+    static boolean fileSearch(String path, String fileName) {
+        File file = new File(path);
+        File[] files = file.listFiles();
+        if (files != null) {
+            for (File value : files) {
+                if (value.isFile() && value.getName().equals(fileName)) {
+                    return true;
+                }
+                if (value.isDirectory()) {
+                    if (fileSearch(value.getAbsolutePath(), fileName)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
 
     // Without recursion
@@ -66,31 +66,31 @@ public class FileUtil {
     // մեր տված keyword-ը, եթե գտնի, պետք է տպի տվյալ ֆայլի անունը։
 
     // With recursion
-//    static void contentSearch(String path, String keyword) {// With recursion
-//        File file = new File(path);
-//        File[] files = file.listFiles();
-//        if (files != null) {
-//            for (File value : files) {
-//                if (value.isDirectory()) {
-//                    contentSearch(value.getAbsolutePath(), keyword);
-//                } else {
-//                    if (value.canRead() && value.getName().endsWith(".txt")) {
-//                        try (BufferedReader br = new BufferedReader(new FileReader(value))) {
-//                            String line;
-//                            do {
-//                                line = br.readLine();
-//                                if (line != null && line.contains(keyword)) {
-//                                    System.out.println(value.getName());
-//                                }
-//                            } while (line != null);
-//                        } catch (IOException e) {
-//                            System.out.println("Exception " + e);
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
+    static void contentSearch(String path, String keyword) {// With recursion
+        File file = new File(path);
+        File[] files = file.listFiles();
+        if (files != null) {
+            for (File value : files) {
+                if (value.isDirectory()) {
+                    contentSearch(value.getAbsolutePath(), keyword);
+                } else {
+                    if (value.canRead() && value.getName().endsWith(".txt")) {
+                        try (BufferedReader br = new BufferedReader(new FileReader(value))) {
+                            String line;
+                            do {
+                                line = br.readLine();
+                                if (line != null && line.contains(keyword)) {
+                                    System.out.println(value.getName());
+                                }
+                            } while (line != null);
+                        } catch (IOException e) {
+                            System.out.println("Exception " + e);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     // Without recursion
     static void contentSearch() {
@@ -159,20 +159,20 @@ public class FileUtil {
     // ֆոլդերի բոլոր ֆայլերի չափսերը գումարում ենք իրար, ու տպում
 
     // With recursion
-//    static double printSizeOfPackage(String path) {
-//        File file = new File(path);
-//        if (!file.isDirectory()) {
-//            return file.length();
-//        }
-//        long size = 0;
-//        File[] files = file.listFiles();
-//        if (files != null) {
-//            for (File value : files) {
-//                size += (long) printSizeOfPackage(value.getAbsolutePath());
-//            }
-//        }
-//        return size;
-//    }
+    static double printSizeOfPackage(String path) {
+        File file = new File(path);
+        if (!file.isDirectory()) {
+            return file.length();
+        }
+        long size = 0;
+        File[] files = file.listFiles();
+        if (files != null) {
+            for (File value : files) {
+                size += (long) printSizeOfPackage(value.getAbsolutePath());
+            }
+        }
+        return size;
+    }
 
     // Without recursion
     static void printSizeOfPackage() {

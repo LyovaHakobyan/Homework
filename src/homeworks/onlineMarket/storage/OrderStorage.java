@@ -7,60 +7,51 @@ import homeworks.onlineMarket.model.User;
 import homeworks.onlineMarket.util.StorageSerializeUtil;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 public class OrderStorage implements Serializable {
-    private Order[] orders;
-    private int size;
+    private final List<Order> orders = new LinkedList<>();
 
     public OrderStorage() {
-        orders = new Order[10];
-        size = 0;
     }
 
     public void addOrder(Order order) {
-        if (size == orders.length - 1) {
-            extend();
-        }
-        orders[size++] = order;
+        orders.add(order);
         StorageSerializeUtil.serializeOrderStorage(this);
     }
 
     public void printAll() {
-        for (int i = 0; i < size; i++) {
-            System.out.println(orders[i]);
+        for (Order order : orders) {
+            System.out.println(order);
         }
     }
 
     public void printMyOrders(User user) {
-        for (int i = 0; i < size; i++) {
-            if (orders[i].getUser().equals(user)) {
-                System.out.println(orders[i]);
+        for (Order order : orders) {
+            if (order.getUser().equals(user)) {
+                System.out.println(order);
             }
         }
     }
 
     public Order getOrderById(String id) throws NotFoundException {
-        for (int i = 0; i < size; i++) {
-            if (orders[i].getOrderId().equals(id)) {
-                return orders[i];
+        for (Order order : orders) {
+            if (order.getOrderId().equals(id)) {
+                return order;
             }
         }
         throw new NotFoundException("no such order");
     }
 
     public void changeOrderStatus(Order order, OrderStatus orderStatus) {
-        for (int i = 0; i < size; i++) {
-            if (orders[i].equals(order)) {
-                orders[i].setOrderStatus(orderStatus);
+        for (Order order1 : orders) {
+            if (order1.equals(order)) {
+                order1.setOrderStatus(orderStatus);
                 StorageSerializeUtil.serializeOrderStorage(this);
                 break;
             }
         }
     }
 
-    private void extend() {
-        Order[] temp = new Order[orders.length + 10];
-        System.arraycopy(orders, 0, temp, 0, size);
-        orders = temp;
-    }
 }

@@ -1,6 +1,7 @@
 package homeworks.onlineMarket.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class User implements Serializable {
     private String userId;
@@ -55,6 +56,30 @@ public class User implements Serializable {
 
     public void setUserType(UserType userType) {
         this.userType = userType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (!Objects.equals(userId, user.userId)) return false;
+        if (!Objects.equals(userName, user.userName)) return false;
+        if (!Objects.equals(userEmail, user.userEmail)) return false;
+        if (!Objects.equals(userPassword, user.userPassword)) return false;
+        return userType == user.userType;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = userId != null ? userId.hashCode() : 0;
+        result = 31 * result + (userName != null ? userName.hashCode() : 0);
+        result = 31 * result + (userEmail != null ? userEmail.hashCode() : 0);
+        result = 31 * result + (userPassword != null ? userPassword.hashCode() : 0);
+        result = 31 * result + (userType != null ? userType.hashCode() : 0);
+        return result;
     }
 
     @Override
