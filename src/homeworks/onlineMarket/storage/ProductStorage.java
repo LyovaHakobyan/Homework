@@ -30,7 +30,7 @@ public class ProductStorage implements Serializable {
         return false;
     }
 
-    public Product returnProductById(String id) throws NotFoundException {
+    public Product getProductById(String id) throws NotFoundException {
         for (Product product : products) {
             if (product.getProductId().equals(id)) {
                 return product;

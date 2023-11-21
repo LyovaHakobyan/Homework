@@ -120,11 +120,7 @@ public class ProductManagement implements Command {
         }
         System.out.println("Password...");
         String password = in.nextLine();
-        try {
-            if (!userStorage.checkPassword(user, password)) {
-                throw new NotFoundException();
-            }
-        } catch (NotFoundException e) {
+        if (!userStorage.checkPassword(user, password)) {
             System.out.println("-- Wrong Password --");
             return;
         }
@@ -345,7 +341,7 @@ public class ProductManagement implements Command {
         String id = in.nextLine();
         Product product;
         try {
-            product = productStorage.returnProductById(id);
+            product = productStorage.getProductById(id);
         } catch (NotFoundException e) {
             System.out.println("-- Product by this Id is not found --");
             return;
