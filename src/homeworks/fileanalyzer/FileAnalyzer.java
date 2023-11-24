@@ -56,32 +56,42 @@ public class FileAnalyzer {
 
     // Читаем файл, подсчитываем количество уникальных слов
     public static int uniqueWordCount(String path) {
-        File file = new File(path);
-        List<String> allWordsList = new ArrayList<>();
+        Map<String, Integer> stringIntegerMap = wordMap(path);
         int uniqueWordCount = 0;
-        if (file.isFile() && file.canRead() && file.getName().endsWith(".txt")) {
-            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-                String line;
-                String[] words;
-                while ((line = bufferedReader.readLine()) != null) {
-                    words = line.split(" ");
-                    for (String word : words) {
-                        word = word.replaceAll("[^a-zA-Zа-яА-Я]", "");
-                        allWordsList.add(word);
-                    }
-                }
-                for (String word : allWordsList) {
-                    if (allWordsList.indexOf(word) == allWordsList.lastIndexOf(word)) {
-                        uniqueWordCount++;
-                    }
-                }
-                return uniqueWordCount;
-            } catch (IOException e) {
-                System.out.println("Exception " + e);
+        for (Integer value : stringIntegerMap.values()) {
+            if (value == 1) {
+                uniqueWordCount++;
             }
         }
-        return 0;
+        return uniqueWordCount;
     }
+//    public static int uniqueWordCount(String path) {
+//        File file = new File(path);
+//        List<String> allWordsList = new ArrayList<>();
+//        int uniqueWordCount = 0;
+//        if (file.isFile() && file.canRead() && file.getName().endsWith(".txt")) {
+//            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+//                String line;
+//                String[] words;
+//                while ((line = bufferedReader.readLine()) != null) {
+//                    words = line.split(" ");
+//                    for (String word : words) {
+//                        word = word.replaceAll("[^a-zA-Zа-яА-Я]", "");
+//                        allWordsList.add(word);
+//                    }
+//                }
+//                for (String word : allWordsList) {
+//                    if (allWordsList.indexOf(word) == allWordsList.lastIndexOf(word)) {
+//                        uniqueWordCount++;
+//                    }
+//                }
+//                return uniqueWordCount;
+//            } catch (IOException e) {
+//                System.out.println("Exception " + e);
+//            }
+//        }
+//        return 0;
+//    }
 
     // Читаем файл, находим топ-N часто встречающихся слов
     public static Map<String, Integer> topFrequentWords(String path, int n) {
