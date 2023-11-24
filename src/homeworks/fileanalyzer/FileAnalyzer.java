@@ -8,7 +8,7 @@ public class FileAnalyzer {
     public static Map<String, Integer> wordMap(String path) {
         Map<String, Integer> wordCountMap = new HashMap<>();
         File file = new File(path);
-        if (file.isFile()) {
+        if (file.isFile() && file.canRead() && file.getName().endsWith(".txt")) {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
                 String line;
                 String[] words;
@@ -38,7 +38,7 @@ public class FileAnalyzer {
     public static int totalWordCount(String path) {
         File file = new File(path);
         int wordCount = 0;
-        if (file.isFile()) {
+        if (file.isFile() && file.canRead() && file.getName().endsWith(".txt")) {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
                 String line;
                 String[] words;
@@ -59,7 +59,7 @@ public class FileAnalyzer {
         File file = new File(path);
         List<String> allWordsList = new ArrayList<>();
         int uniqueWordCount = 0;
-        if (file.isFile()) {
+        if (file.isFile() && file.canRead() && file.getName().endsWith(".txt")) {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
                 String line;
                 String[] words;
@@ -87,7 +87,7 @@ public class FileAnalyzer {
     public static Map<String, Integer> topFrequentWords(String path, int n) {
         Map<String, Integer> wordsWithCountMap = new LinkedHashMap<>();
         File file = new File(path);
-        if (file.isFile()) {
+        if (file.isFile() && file.canRead() && file.getName().endsWith(".txt")) {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
                 String line;
                 String[] words;
@@ -128,7 +128,7 @@ public class FileAnalyzer {
     public static int countWordOccurrences(String path, String word) {
         File file = new File(path);
         int occurrenceCount = 0;
-        if (file.isFile()) {
+        if (file.isFile() && file.canRead() && file.getName().endsWith(".txt")) {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
                 String line;
                 String[] words;
