@@ -6,7 +6,7 @@ import java.util.*;
 public class FileAnalyzer {
     // Читаем файл, составляем мапу слово-количество и возвращаем ее
     public static Map<String, Integer> wordMap(String path) {
-        Map<String, Integer> wordCount = new HashMap<>();
+        Map<String, Integer> wordCountMap = new HashMap<>();
         File file = new File(path);
         if (file.isFile()) {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
@@ -16,17 +16,17 @@ public class FileAnalyzer {
                     words = line.split(" ");
                     for (String word : words) {
                         word = word.replaceAll("[^a-zA-Zа-яА-Я]", "");
-                        Integer integer = wordCount.get(word);
+                        Integer integer = wordCountMap.get(word);
                         int count;
                         if (integer == null) {
                             count = 1;
                         } else {
                             count = integer + 1;
                         }
-                        wordCount.put(word, count);
+                        wordCountMap.put(word, count);
                     }
                 }
-                return wordCount;
+                return wordCountMap;
             } catch (IOException e) {
                 System.out.println("Exception " + e);
             }
@@ -57,7 +57,7 @@ public class FileAnalyzer {
     // Читаем файл, подсчитываем количество уникальных слов
     public static int uniqueWordCount(String path) {
         File file = new File(path);
-        List<String> allWords = new ArrayList<>();
+        List<String> allWordsList = new ArrayList<>();
         int uniqueWordCount = 0;
         if (file.isFile()) {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
@@ -67,11 +67,11 @@ public class FileAnalyzer {
                     words = line.split(" ");
                     for (String word : words) {
                         word = word.replaceAll("[^a-zA-Zа-яА-Я]", "");
-                        allWords.add(word);
+                        allWordsList.add(word);
                     }
                 }
-                for (String word : allWords) {
-                    if (allWords.indexOf(word) == allWords.lastIndexOf(word)) {
+                for (String word : allWordsList) {
+                    if (allWordsList.indexOf(word) == allWordsList.lastIndexOf(word)) {
                         uniqueWordCount++;
                     }
                 }
@@ -85,7 +85,7 @@ public class FileAnalyzer {
 
     // Читаем файл, находим топ-N часто встречающихся слов
     public static Map<String, Integer> topFrequentWords(String path, int n) {
-        Map<String, Integer> wordsWithCount = new LinkedHashMap<>();
+        Map<String, Integer> wordsWithCountMap = new LinkedHashMap<>();
         File file = new File(path);
         if (file.isFile()) {
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
@@ -96,27 +96,27 @@ public class FileAnalyzer {
                     words = line.split(" ");
                     for (String word : words) {
                         word = word.replaceAll("[^a-zA-Zа-яА-Я]", "");
-                        Integer count = wordsWithCount.get(word);
+                        Integer count = wordsWithCountMap.get(word);
                         if (count == null) {
                             wordCount = 1;
                         } else {
                             wordCount = count + 1;
                         }
-                        wordsWithCount.put(word, wordCount);
+                        wordsWithCountMap.put(word, wordCount);
                     }
                 }
-                List<Map.Entry<String, Integer>> allWords = new ArrayList<>(wordsWithCount.entrySet());
+                List<Map.Entry<String, Integer>> allWords = new ArrayList<>(wordsWithCountMap.entrySet());
                 allWords.sort(new Comparator<Map.Entry<String, Integer>>() {
                     @Override
                     public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
                         return o2.getValue() - o1.getValue();
                     }
                 });
-                wordsWithCount.clear();
+                wordsWithCountMap.clear();
                 for (int i = 0; i < n; i++) {
-                    wordsWithCount.put(allWords.get(i).getKey(), allWords.get(i).getValue());
+                    wordsWithCountMap.put(allWords.get(i).getKey(), allWords.get(i).getValue());
                 }
-                return wordsWithCount;
+                return wordsWithCountMap;
             } catch (IOException e) {
                 System.out.println("Exception " + e);
             }
